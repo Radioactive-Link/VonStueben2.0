@@ -20,7 +20,7 @@ public final class Constants {
     public static final int DRIVER_XBOX_CONTROLLER = 0;
   }
   public static class MotorControllers {
-    public static final int LEFT  = 6;
-    public static final int RIGHT = 1;
+    public static final int LEFT  = 1;
+    public static final int RIGHT = 2;
   }
 }
