@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Encoder;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -14,10 +15,11 @@ import com.kauailabs.navx.frc.AHRS;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
-    //TODO: Figure out what kind of encoders are on the motors
     private CANSparkMax lMotor;
     private CANSparkMax rMotor;
     private DifferentialDrive drivetrain;
+    private Encoder lEncoder = new Encoder(Constants.Encoders.lEncoderA, Constants.Encoders.lEncoderB);
+    private Encoder rEncoder = new Encoder(Constants.Encoders.rEncoderA, Constants.Encoders.rEncoderB);
 
     private AHRS gyro;
 
@@ -45,6 +47,10 @@ public class DriveSubsystem extends SubsystemBase {
         } catch (RuntimeException err) {
             DriverStation.reportError("Error instantiating navX: " + err.getMessage(), true);
         }
+
+        //pi * wheel diam in / counts per revolution
+        lEncoder.setDistancePerPulse(Math.PI * 6 / 360);
+        rEncoder.setDistancePerPulse(Math.PI * 6 / 360);
     }
 
     private enum driveMode {
@@ -92,5 +98,7 @@ public class DriveSubsystem extends SubsystemBase {
         // periodically update the dashboard with subsystem's state
         SmartDashboard.putBoolean("Is Normal Mode", currentMode == driveMode.NORMAL);
         SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
+        SmartDashboard.putNumber("Left Encoder Distance",  lEncoder.getDistance());
+        SmartDashboard.putNumber("Right Encoder Distance", rEncoder.getDistance());
     }
 }
