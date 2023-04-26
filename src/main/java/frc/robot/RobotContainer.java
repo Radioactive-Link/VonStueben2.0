@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,13 +43,26 @@ public class RobotContainer {
       driverController.getRightX() ));
 
     // uncomment this if above doesn't work. @see subsystems.DriveSubsystem in function drive
-    // drive.setDefaultCommand(() ->
-    //   drive.drive(driverController.getLeftY(), driverController.getRightX()) );
+    // drive.setDefaultCommand(Commands.run(() ->
+    //   drive.drive(driverController.getLeftY(), driverController.getRightX())) );
 
     setupDashboard();
 
     // Configure the trigger bindings
     configureBindings();
+  }
+
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
+  private void configureBindings() {
+    lStick.onTrue(drive.toggleSlowMode());
   }
 
   // stores names of autonomous commands. Displayed to dashboard in setUpDashboard
@@ -69,19 +83,6 @@ public class RobotContainer {
 
     //put to dashboard
     SmartDashboard.putData("Auto Commands", chooser);
-  }
-
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() {
-    lStick.onTrue(drive.toggleSlowMode());
   }
 
   /**
