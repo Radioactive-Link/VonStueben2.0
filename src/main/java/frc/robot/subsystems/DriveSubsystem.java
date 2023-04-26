@@ -84,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     public CommandBase balance() {
         return this.run(() -> drivetrain.arcadeDrive(
-            Math.sin(gyro.getRoll()) * (Math.PI / 180), 0.0, false) );
+            Math.sin(gyro.getRoll() * (Math.PI / 180)), 0.0, false) );
     }
 
     @Override

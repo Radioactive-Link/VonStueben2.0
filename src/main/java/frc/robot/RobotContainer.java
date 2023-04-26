@@ -33,6 +33,7 @@ public class RobotContainer {
 
   // declaring a trigger to make code in configureBindings shorter
   private Trigger lStick = driverController.leftStick();
+  private Trigger startBtn = driverController.start();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -63,6 +64,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     lStick.onTrue(drive.toggleSlowMode());
+    startBtn.whileTrue(drive.balance());
   }
 
   // stores names of autonomous commands. Displayed to dashboard in setUpDashboard
