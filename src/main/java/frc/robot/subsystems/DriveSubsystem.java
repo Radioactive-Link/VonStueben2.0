@@ -61,10 +61,20 @@ public class DriveSubsystem extends SubsystemBase {
                 drivetrain.arcadeDrive(f/1.3, r/1.6); });
     }
 
+    // non-commandbase variant incase above doesn't work.
+    // public void drive(double f, double r) {
+    //     drivetrain.arcadeDrive(f,r);
+    // }
+
     // unscaled drive
     public CommandBase autoDrive(double f, double r) {
         return this.run(() -> drivetrain.arcadeDrive(f, r, false));
     }
+
+    // non-commandbase variant incase above doesn't work.
+    // public void autoDrive(double f, double r) {
+    //     drivetrain.arcadeDrive(f, r, false);
+    // }
 
     public CommandBase toggleSlowMode() {
         return this.runOnce(() -> 

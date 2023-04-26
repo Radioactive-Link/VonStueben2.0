@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +41,10 @@ public class RobotContainer {
       driverController.getLeftY(),
       driverController.getRightX() ));
 
+    // uncomment this if above doesn't work. @see subsystems.DriveSubsystem in function drive
+    // drive.setDefaultCommand(() ->
+    //   drive.drive(driverController.getLeftY(), driverController.getRightX()) );
+
     setupDashboard();
 
     // Configure the trigger bindings
@@ -48,15 +53,19 @@ public class RobotContainer {
 
   // stores names of autonomous commands. Displayed to dashboard in setUpDashboard
   // and used for comparison in getAutonomousCommand
-  private final String[] autoCommands = {"PastLine", "Balance", "BalancePastLine"};
+  private final String[] autoCommandNames = {"PastLine", "Balance", "BalancePastLine"};
+  // stores corresponding autoCommands. Must line up with above array to work as expected.
+  private final CommandBase[] autoCommands = { Autos.pastLine(drive)
+                                             , Autos.balance(drive)
+                                             , Autos.balancePastLine(drive)};
   private SendableChooser<String> chooser = new SendableChooser<String>();
 
   public void setupDashboard() {
     //set default option
-    chooser.setDefaultOption(autoCommands[0], autoCommands[0]);
+    chooser.setDefaultOption(autoCommandNames[0], autoCommandNames[0]);
 
     //add other commands to dropdown of autocommands
-    for (var e : autoCommands) chooser.addOption(e, e);
+    for (var e : autoCommandNames) chooser.addOption(e, e);
 
     //put to dashboard
     SmartDashboard.putData("Auto Commands", chooser);
@@ -83,8 +92,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     var autoSelected = chooser.getSelected();
 
-    if (autoSelected == "Balance")         return Autos.balance(drive);
-    if (autoSelected == "BalancePastLine") return Autos.balancePastLine(drive);
+    // match up selected with names, if a match is found,
+    // return the corresponding function
+    for (int i = 0; i < autoCommandNames.length; ++i) 
+      if (autoSelected == autoCommandNames[i])
+        return autoCommands[i];
+
     // default: "PastLine"
     return Autos.pastLine(drive);
   }
