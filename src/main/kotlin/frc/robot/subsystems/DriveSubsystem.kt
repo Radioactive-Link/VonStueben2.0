@@ -15,9 +15,9 @@ import com.kauailabs.navx.frc.AHRS
 import frc.robot.Constants
 
 class DriveSubsystem : SubsystemBase() {
-    private var lMotor = CANSparkMax(Constants.MotorControllers.kLeft, MotorType.kBrushed)
-    private var rMotor = CANSparkMax(Constants.MotorControllers.kRight, MotorType.kBrushed)
-    private var drivetrain = DifferentialDrive(lMotor, rMotor)
+    private val lMotor = CANSparkMax(Constants.MotorControllers.kLeft, MotorType.kBrushed)
+    private val rMotor = CANSparkMax(Constants.MotorControllers.kRight, MotorType.kBrushed)
+    private val drivetrain = DifferentialDrive(lMotor, rMotor)
 
     private val lEncoder = Encoder(Constants.Encoders.kLEncoderA, Constants.Encoders.kLEncoderB)
     private val rEncoder = Encoder(Constants.Encoders.kREncoderA, Constants.Encoders.kREncoderB)
