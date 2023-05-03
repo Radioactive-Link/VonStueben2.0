@@ -1,17 +1,15 @@
 package frc.robot.subsystems
 
-import edu.wpi.first.wpilibj.SPI
-import edu.wpi.first.wpilibj.DriverStation
-import edu.wpi.first.wpilibj2.command.CommandBase
-import edu.wpi.first.wpilibj2.command.SubsystemBase
-import edu.wpi.first.wpilibj.drive.DifferentialDrive
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
-import edu.wpi.first.wpilibj.Encoder
-
+import com.kauailabs.navx.frc.AHRS
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel.MotorType
-import com.kauailabs.navx.frc.AHRS
-
+import edu.wpi.first.wpilibj.DriverStation
+import edu.wpi.first.wpilibj.Encoder
+import edu.wpi.first.wpilibj.SPI
+import edu.wpi.first.wpilibj.drive.DifferentialDrive
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj2.command.CommandBase
+import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 
 class DriveSubsystem : SubsystemBase() {
@@ -26,16 +24,16 @@ class DriveSubsystem : SubsystemBase() {
 
     init {
         /**
-         * The RestoreFactoryDefaults method can be used to reset the configuration parameters
-         * in the SPARK MAX to their factory default state. If no argument is passed, these
-         * parameters will not persist between power cycles
+         * The RestoreFactoryDefaults method can be used to reset the configuration parameters in
+         * the SPARK MAX to their factory default state. If no argument is passed, these parameters
+         * will not persist between power cycles
          */
         lMotor.restoreFactoryDefaults()
         rMotor.restoreFactoryDefaults()
 
         lMotor.setInverted(true)
 
-        //pi * wheel diam in / counts per revolution
+        // pi * wheel diam in / counts per revolution
         lEncoder.setDistancePerPulse(Math.PI * 6 / 360)
         rEncoder.setDistancePerPulse(Math.PI * 6 / 360)
 
@@ -51,27 +49,26 @@ class DriveSubsystem : SubsystemBase() {
         kSlow,
         kNormal
     }
-    private var currentMode: DriveMode = DriveMode.kNormal // default mode is normal
+    private var currentMode = DriveMode.kNormal // default mode is normal
 
     fun drive(f: Double, r: Double): CommandBase {
         return this.run {
-            if (currentMode == DriveMode.kNormal) 
-                drivetrain.arcadeDrive(f/1.2, r/1.4)
-            else
-                drivetrain.arcadeDrive(f/1.3, r/1.6) }
+            if (currentMode == DriveMode.kNormal) drivetrain.arcadeDrive(f / 1.2, r / 1.4)
+            else drivetrain.arcadeDrive(f / 1.3, r / 1.6)
+        }
     }
 
     // non-commandbase variant incase above doesn't work.
     // fun drive(f: Double, r: Double) {
-    //     if (currentMode == DriveMode.kNormal) 
+    //     if (currentMode == DriveMode.kNormal)
     //         drivetrain.arcadeDrive(f/1.2, r/1.4)
     //     else
-    //         drivetrain.arcadeDrive(f/1.3, r/1.6) ;
+    //         drivetrain.arcadeDrive(f/1.3, r/1.6)
     // }
 
     // unscaled drive
     fun autoDrive(f: Double, r: Double): CommandBase {
-        return this.run {drivetrain.arcadeDrive(f, r, false)}
+        return this.run { drivetrain.arcadeDrive(f, r, false) }
     }
 
     // non-commandbase variant incase above doesn't work.
@@ -81,20 +78,21 @@ class DriveSubsystem : SubsystemBase() {
 
     fun toggleSlowMode(): CommandBase {
         return this.runOnce {
-            currentMode = if (currentMode == DriveMode.kSlow)
-            DriveMode.kNormal else DriveMode.kSlow }
+            currentMode = if (currentMode == DriveMode.kSlow) DriveMode.kNormal else DriveMode.kSlow
+        }
     }
 
     fun balance(): CommandBase {
-        return this.run {drivetrain.arcadeDrive(
-            Math.sin(gyro.getRoll() * (Math.PI / 180)), 0.0, false)}
+        return this.run {
+            drivetrain.arcadeDrive(Math.sin(gyro.getRoll() * (Math.PI / 180)), 0.0, false)
+        }
     }
 
     override fun periodic() {
         // periodically update the dashboard with subsystem's state
         SmartDashboard.putBoolean("Is Normal Mode", currentMode == DriveMode.kNormal)
         SmartDashboard.putNumber("Gyro Roll", gyro.getRoll().toDouble())
-        SmartDashboard.putNumber("Left Encoder Distance",  lEncoder.getDistance())
+        SmartDashboard.putNumber("Left Encoder Distance", lEncoder.getDistance())
         SmartDashboard.putNumber("Right Encoder Distance", rEncoder.getDistance())
     }
 }
