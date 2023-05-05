@@ -51,20 +51,20 @@ class DriveSubsystem : SubsystemBase() {
     }
     private var currentMode = DriveMode.kNormal // default mode is normal
 
-    fun drive(f: Double, r: Double): CommandBase {
-        return this.run {
-            if (currentMode == DriveMode.kNormal) drivetrain.arcadeDrive(f / 1.2, r / 1.4)
-            else drivetrain.arcadeDrive(f / 1.3, r / 1.6)
-        }
-    }
+    // fun drive(f: Double, r: Double): CommandBase {
+    //     return this.run {
+    //         if (currentMode == DriveMode.kNormal) drivetrain.arcadeDrive(f / 1.2, r / 1.4)
+    //         else drivetrain.arcadeDrive(f / 1.3, r / 1.6)
+    //     }
+    // }
 
     // non-commandbase variant incase above doesn't work.
-    // fun drive(f: Double, r: Double) {
-    //     if (currentMode == DriveMode.kNormal)
-    //         drivetrain.arcadeDrive(f/1.2, r/1.4)
-    //     else
-    //         drivetrain.arcadeDrive(f/1.3, r/1.6)
-    // }
+    fun drive(f: Double, r: Double) {
+        if (currentMode == DriveMode.kNormal)
+            drivetrain.arcadeDrive(f/1.2, r/1.4)
+        else
+            drivetrain.arcadeDrive(f/1.3, r/1.6)
+    }
 
     // unscaled drive
     fun autoDrive(f: Double, r: Double): CommandBase {

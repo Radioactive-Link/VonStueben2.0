@@ -4,6 +4,7 @@ package frc.robot
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
+import edu.wpi.first.wpilibj2.command.Commands
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController
 import frc.robot.Constants.Controllers
 import frc.robot.commands.Autos
@@ -50,13 +51,10 @@ class RobotContainer {
      * controllers or [edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
     private fun configureBindings() {
-        driveSubsystem.setDefaultCommand(
-                driveSubsystem.drive(driverController.getLeftY(), driverController.getRightX())
-        )
-        // driveSubsystem.setDefaultCommand(Commands.run { driveSubsystem.drive(
-        // driverController.getLeftY()
-        //                                                                     ,
-        // driverController.getRightX()})
+        // driveSubsystem.setDefaultCommand(
+        //         driveSubsystem.drive(driverController.getLeftY(), driverController.getRightX())
+        // )
+        driveSubsystem.setDefaultCommand(Commands.run ({ driveSubsystem.drive(f = driverController.getLeftY(), r = driverController.getRightX())}, driveSubsystem))
 
         // Schedule ExampleCommand when exampleCondition changes to true
         // Trigger { exampleSubsystem.exampleCondition() }.onTrue(ExampleCommand(exampleSubsystem))
