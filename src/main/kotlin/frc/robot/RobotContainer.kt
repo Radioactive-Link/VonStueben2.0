@@ -54,7 +54,7 @@ class RobotContainer {
         // driveSubsystem.setDefaultCommand(
         //         driveSubsystem.drive(driverController.getLeftY(), driverController.getRightX())
         // )
-        driveSubsystem.setDefaultCommand(Commands.run ({ driveSubsystem.drive(f = driverController.getLeftY(), r = driverController.getRightX())}, driveSubsystem))
+        driveSubsystem.setDefaultCommand(Commands.run({ driveSubsystem.drive(driverController.getLeftY(), driverController.getRightX()) }, driveSubsystem))
 
         // Schedule ExampleCommand when exampleCondition changes to true
         // Trigger { exampleSubsystem.exampleCondition() }.onTrue(ExampleCommand(exampleSubsystem))
