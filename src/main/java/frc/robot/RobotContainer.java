@@ -39,9 +39,8 @@ public class RobotContainer {
   public RobotContainer() {
     // set default commands for subsystems
     // default command for drivesubsystem is to drive using controller axes
-    drive.setDefaultCommand(drive.drive(
-      driverController.getLeftY(),
-      driverController.getRightX() ));
+    drive.setDefaultCommand(Commands.run(() -> drive.drive( driverController.getLeftY()
+                                                          , driverController.getRightX() )));
 
     // uncomment this if above doesn't work. @see subsystems.DriveSubsystem in function drive
     // drive.setDefaultCommand(Commands.run(() ->

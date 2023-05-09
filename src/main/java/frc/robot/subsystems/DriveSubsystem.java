@@ -58,19 +58,10 @@ public class DriveSubsystem extends SubsystemBase {
         NORMAL
     }
     private driveMode currentMode = driveMode.NORMAL; // default mode is normal
-
-    public CommandBase drive(double f, double r) {
-        return this.run(() -> {
-            if (currentMode == driveMode.NORMAL) 
-                drivetrain.arcadeDrive(f/1.2, r/1.4);
-            else
-                drivetrain.arcadeDrive(f/1.3, r/1.6); });
+    
+    public void drive(double f, double r) {
+        drivetrain.arcadeDrive(f,r);
     }
-
-    // non-commandbase variant incase above doesn't work.
-    // public void drive(double f, double r) {
-    //     drivetrain.arcadeDrive(f,r);
-    // }
 
     // unscaled drive
     public CommandBase autoDrive(double f, double r) {
