@@ -10,10 +10,7 @@ package frc.robot;
  * globally (i.e. public static). Do not put anything functional in this class.
  *
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
- * 
- * @note java's enums are type safe by default... unlike cpp... meaning we have to write most
- * things out in classes
+ * constants are needed, to reduce verbosity. </p>
  */
 public final class Constants {
   public static class Controllers {

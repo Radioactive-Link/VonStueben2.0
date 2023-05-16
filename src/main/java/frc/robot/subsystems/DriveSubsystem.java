@@ -15,24 +15,22 @@ import com.kauailabs.navx.frc.AHRS;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
-    private CANSparkMax lMotor;
-    private CANSparkMax rMotor;
-    private DifferentialDrive drivetrain;
-    private Encoder lEncoder = new Encoder(Constants.Encoders.lEncoderA, Constants.Encoders.lEncoderB);
-    private Encoder rEncoder = new Encoder(Constants.Encoders.rEncoderA, Constants.Encoders.rEncoderB);
+    private final DifferentialDrive drivetrain;
+    private final Encoder lEncoder = new Encoder(Constants.Encoders.lEncoderA, Constants.Encoders.lEncoderB);
+    private final Encoder rEncoder = new Encoder(Constants.Encoders.rEncoderA, Constants.Encoders.rEncoderB);
 
     private AHRS gyro;
 
     //constructor
     public DriveSubsystem() {
         // initialize motors and drivetrain
-        lMotor = new CANSparkMax(Constants.MotorControllers.LEFT,  MotorType.kBrushed);
-        rMotor = new CANSparkMax(Constants.MotorControllers.RIGHT, MotorType.kBrushed);
+        CANSparkMax lMotor = new CANSparkMax(Constants.MotorControllers.LEFT, MotorType.kBrushed);
+        CANSparkMax rMotor = new CANSparkMax(Constants.MotorControllers.RIGHT, MotorType.kBrushed);
 
-        /**
-         * The RestoreFactoryDefaults method can be used to reset the configuration parameters
-         * in the SPARK MAX to their factory default state. If no argument is passed, these
-         * parameters will not persist between power cycles
+        /*
+          The RestoreFactoryDefaults method can be used to reset the configuration parameters
+          in the SPARK MAX to their factory default state. If no argument is passed, these
+          parameters will not persist between power cycles
          */
         lMotor.restoreFactoryDefaults();
         rMotor.restoreFactoryDefaults();
@@ -67,11 +65,6 @@ public class DriveSubsystem extends SubsystemBase {
     public CommandBase autoDrive(double f, double r) {
         return this.run(() -> drivetrain.arcadeDrive(f, r, false));
     }
-
-    // non-commandbase variant incase above doesn't work.
-    // public void autoDrive(double f, double r) {
-    //     drivetrain.arcadeDrive(f, r, false);
-    // }
 
     public CommandBase toggleSlowMode() {
         return this.runOnce(() -> 

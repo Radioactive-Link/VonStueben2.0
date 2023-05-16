@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-// import edu.wpi.first.wpilibj2.command.button.POVButton; // dpad
 
 import frc.robot.Constants.Controllers;
 import frc.robot.commands.Autos;
 import frc.robot.subsystems.DriveSubsystem;
+
+import java.util.Objects;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,15 +26,15 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private DriveSubsystem drive = new DriveSubsystem();
+  private final DriveSubsystem drive = new DriveSubsystem();
 
   // define the controller
   private final CommandXboxController driverController =
       new CommandXboxController(Controllers.DRIVER_XBOX_CONTROLLER);
 
   // declaring a trigger to make code in configureBindings shorter
-  private Trigger lStick = driverController.leftStick();
-  private Trigger startBtn = driverController.start();
+  private final Trigger lStick = driverController.leftStick();
+  private final Trigger startBtn = driverController.start();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -41,10 +42,6 @@ public class RobotContainer {
     // default command for drivesubsystem is to drive using controller axes
     drive.setDefaultCommand(Commands.run(() -> drive.drive( driverController.getLeftY()
                                                           , driverController.getRightX() )));
-
-    // uncomment this if above doesn't work. @see subsystems.DriveSubsystem in function drive
-    // drive.setDefaultCommand(Commands.run(() ->
-    //   drive.drive(driverController.getLeftY(), driverController.getRightX())) );
 
     setupDashboard();
 
@@ -73,7 +70,7 @@ public class RobotContainer {
   private final CommandBase[] autoCommands = { Autos.pastLine(drive)
                                              , Autos.balance(drive)
                                              , Autos.balancePastLine(drive)};
-  private SendableChooser<String> chooser = new SendableChooser<String>();
+  private final SendableChooser<String> chooser = new SendableChooser<>();
 
   public void setupDashboard() {
     //set default option
@@ -97,7 +94,7 @@ public class RobotContainer {
     // match up selected with names, if a match is found,
     // return the corresponding function
     for (int i = 0; i < autoCommandNames.length; ++i) 
-      if (autoSelected == autoCommandNames[i])
+      if (Objects.equals(autoSelected, autoCommandNames[i]))
         return autoCommands[i];
 
     // default: "PastLine"
