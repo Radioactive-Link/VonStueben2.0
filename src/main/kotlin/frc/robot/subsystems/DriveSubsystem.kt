@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import kotlin.math.sin
 
 class DriveSubsystem : SubsystemBase() {
     private val lMotor = CANSparkMax(Constants.MotorControllers.kLeft, MotorType.kBrushed)
@@ -31,11 +32,11 @@ class DriveSubsystem : SubsystemBase() {
         lMotor.restoreFactoryDefaults()
         rMotor.restoreFactoryDefaults()
 
-        lMotor.setInverted(true)
+        lMotor.inverted = true
 
         // pi * wheel diam in / counts per revolution
-        lEncoder.setDistancePerPulse(Math.PI * 6 / 360)
-        rEncoder.setDistancePerPulse(Math.PI * 6 / 360)
+        lEncoder.distancePerPulse = Math.PI * 6 / 360
+        rEncoder.distancePerPulse = Math.PI * 6 / 360
 
         // initialize the gyro on the MXP port
         try {
@@ -46,13 +47,13 @@ class DriveSubsystem : SubsystemBase() {
     }
 
     private enum class DriveMode {
-        kSlow,
-        kNormal
+        Slow,
+        Normal
     }
-    private var currentMode = DriveMode.kNormal // default mode is normal
+    private var currentMode = DriveMode.Normal // default mode is normal
 
     fun drive(f: Double, r: Double) {
-        if (currentMode == DriveMode.kNormal)
+        if (currentMode == DriveMode.Normal)
             drivetrain.arcadeDrive(f/1.2, r/1.4)
         else
             drivetrain.arcadeDrive(f/1.3, r/1.6)
@@ -65,21 +66,21 @@ class DriveSubsystem : SubsystemBase() {
 
     fun toggleSlowMode(): CommandBase {
         return this.runOnce {
-            currentMode = if (currentMode == DriveMode.kSlow) DriveMode.kNormal else DriveMode.kSlow
+            currentMode = if (currentMode == DriveMode.Slow) DriveMode.Normal else DriveMode.Slow
         }
     }
 
     fun balance(): CommandBase {
         return this.run {
-            drivetrain.arcadeDrive(Math.sin(gyro.getRoll() * (Math.PI / 180)), 0.0, false)
+            drivetrain.arcadeDrive(sin(gyro.roll * (Math.PI / 180)), 0.0, false)
         }
     }
 
     override fun periodic() {
         // periodically update the dashboard with subsystem's state
-        SmartDashboard.putBoolean("Is Normal Mode", currentMode == DriveMode.kNormal)
-        SmartDashboard.putNumber("Gyro Roll", gyro.getRoll().toDouble())
-        SmartDashboard.putNumber("Left Encoder Distance", lEncoder.getDistance())
-        SmartDashboard.putNumber("Right Encoder Distance", rEncoder.getDistance())
+        SmartDashboard.putBoolean("Is Normal Mode", currentMode == DriveMode.Normal)
+        SmartDashboard.putNumber("Gyro Roll", gyro.roll.toDouble())
+        SmartDashboard.putNumber("Left Encoder Distance", lEncoder.distance)
+        SmartDashboard.putNumber("Right Encoder Distance", rEncoder.distance)
     }
 }

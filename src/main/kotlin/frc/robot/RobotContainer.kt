@@ -21,12 +21,12 @@ class RobotContainer {
     private val driveSubsystem = DriveSubsystem()
 
     private val driverController =
-            CommandXboxController(Constants.Controllers.kDriverControllerPort)
+            CommandXboxController(Controllers.kDriverControllerPort)
     private val lStickBtn = driverController.leftStick()
     private val startBtn = driverController.start()
 
-    private final val autoCommandNames = listOf("PastLine", "Balance", "BalancePastLine")
-    private final val autoCommands =
+    private val autoCommandNames = listOf("PastLine", "Balance", "BalancePastLine")
+    private val autoCommands =
             listOf(
                     Autos.pastLine(driveSubsystem),
                     Autos.balance(driveSubsystem),
@@ -54,7 +54,7 @@ class RobotContainer {
         // driveSubsystem.setDefaultCommand(
         //         driveSubsystem.drive(driverController.getLeftY(), driverController.getRightX())
         // )
-        driveSubsystem.setDefaultCommand(Commands.run({ driveSubsystem.drive(driverController.getLeftY(), driverController.getRightX()) }, driveSubsystem))
+        driveSubsystem.defaultCommand = Commands.run({ driveSubsystem.drive(driverController.leftY, driverController.rightX) }, driveSubsystem)
 
         // Schedule ExampleCommand when exampleCondition changes to true
         // Trigger { exampleSubsystem.exampleCondition() }.onTrue(ExampleCommand(exampleSubsystem))
@@ -79,7 +79,7 @@ class RobotContainer {
      */
     val autonomousCommand: Command
         get() {
-            val selected = chooser.getSelected()
+            val selected = chooser.selected
             autoCommandNames.forEachIndexed { i, e -> if (e == selected) return autoCommands[i] }
             // default: PastLine
             return autoCommands.first()
