@@ -1,3 +1,5 @@
+# This dockerfile is intended to be built and ran in the project directory. When running, mount the directory with:
+# docker run -itdv .:/workspaces <image-name>
 FROM ubuntu:22.04
 ARG WORKSPACE=/workspaces
 VOLUME $WORKSPACE
@@ -46,4 +48,11 @@ RUN apt-get update && apt-get install -y apt-transport-https \
   && rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
+ENV SHELL /bin/bash
 WORKDIR $WORKSPACE
+# Let gradle build once, creating a cache at ~/.gradle to make cold starts faster
+COPY . .
+RUN chmod +x gradlew && ./gradlew build --build-cache
+# Cleanup workspace for volume that will be mounted at runtime
+RUN rm -rf *
+ENTRYPOINT /bin/bash

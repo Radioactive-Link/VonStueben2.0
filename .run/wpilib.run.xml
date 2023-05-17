@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="wpilib" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+    <deployment type="docker-image">
+      <settings>
+        <option name="imageTag" value="sha256:eebdc3f1bdcfb4854e45a7aa61e7e13ac2186fbdcdcb0b644a2592e145f76cc0" />
+        <option name="containerName" value="wpilib" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>
