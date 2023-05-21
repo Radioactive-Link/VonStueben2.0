@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    container_name: stueben
+    stdin_open: true
+    tty: true
+    volumes: [ ".:/workspace" ]

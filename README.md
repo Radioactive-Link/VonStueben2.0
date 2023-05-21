@@ -13,7 +13,7 @@ To follow along, make sure that you have the repo cloned:
 git clone https://github.com/Radioactive-Link/VonStueben2.0.git
 ```
 Additionally, make sure you have the following installed:
-* Docker 
+* Docker
   * [Windows Install](https://docs.docker.com/desktop/install/windows-install/)
   * [Linux Install](https://docs.docker.com/desktop/install/linux-install/)
   * [Mac Install](https://docs.docker.com/desktop/install/mac-install/)
@@ -86,6 +86,12 @@ docker build -t wpilib-project .
 # General Workflow
 cd /path/to/VonStueben2.0
 docker run -itdv .:/workspace --name stueben wpilib-project
+
+# OR, to build and run, do:
+docker-compose up -d
+# Note: Docker compose needs to be installed (comes with Docker Desktop if installed on mac or windows)
+# Will build for the first run only, then will use the image from the initial build for
+# subsequent builds (unless the image is manually deleted in which case it will make a new one)
 ```
 From there, attach a terminal from the container in your IDE, view it in Docker Desktop,
 or attach it via commandline with:
