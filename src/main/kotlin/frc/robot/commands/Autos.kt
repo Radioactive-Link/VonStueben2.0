@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.Commands
 import frc.robot.subsystems.DriveSubsystem
 
-// import frc.robot.subsystems.ExampleSubsystem
 
 class Autos private constructor() {
     init {
@@ -13,11 +12,6 @@ class Autos private constructor() {
 
     // declaring an object as companion is like "static" in java
     companion object {
-        /** Example static factory for an autonomous command. */
-        // fun exampleAuto(subsystem: ExampleSubsystem): CommandBase {
-        // return Commands.sequence(subsystem.exampleMethodCommand(), ExampleCommand(subsystem))
-        // }
-
         fun pastLine(drive: DriveSubsystem): CommandBase {
             return drive.autoDrive(0.7, 0.0).withTimeout(2.0)
         }

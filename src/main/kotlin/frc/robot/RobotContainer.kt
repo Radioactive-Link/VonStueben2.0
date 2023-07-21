@@ -51,17 +51,8 @@ class RobotContainer {
      * controllers or [edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
     private fun configureBindings() {
-        // driveSubsystem.setDefaultCommand(
-        //         driveSubsystem.drive(driverController.getLeftY(), driverController.getRightX())
-        // )
         driveSubsystem.defaultCommand = Commands.run({ driveSubsystem.drive(driverController.leftY, driverController.rightX) }, driveSubsystem)
 
-        // Schedule ExampleCommand when exampleCondition changes to true
-        // Trigger { exampleSubsystem.exampleCondition() }.onTrue(ExampleCommand(exampleSubsystem))
-
-        // Schedule exampleMethodCommand when the Xbox controller's B button is pressed,
-        // cancelling on release.
-        // driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand())
         lStickBtn.onTrue(driveSubsystem.toggleSlowMode())
         startBtn.whileTrue(driveSubsystem.balance())
     }
